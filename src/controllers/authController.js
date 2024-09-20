@@ -1,18 +1,22 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const logger = require('pino')();  // Cria instância do logger
+const logger = require('pino')();
 const userSchema = require('../schemas/userSchema'); 
 
 const { generateToken } = require('../utils/jwt');
 const { sendEmail } = require('../utils/emailUtils');
+const Constants = require('../constants/constants'); // Importando as constantes
 
 exports.registerUser = async (req, res) => {
     const { error } = userSchema.validate(req.body);
 
     if (error) {
-        logger.warn(`Validation failed during registration: ${error.details[0].message}`);
-        return res.status(400).json({ message: error.details[0].message });
+        logger.warn(`${Constants.VALIDATION.FAILED.MESSAGE} ${error.details[0].message}`);
+        return res.status(400).json({ 
+            code: Constants.VALIDATION.FAILED.CODE, 
+            message: Constants.VALIDATION.FAILED.MESSAGE + error.details[0].message 
+        });
     }
 
     const { name, email, password } = req.body;
@@ -21,8 +25,11 @@ exports.registerUser = async (req, res) => {
         const userExists = await User.findOne({ email });
 
         if (userExists) {
-            logger.info(`Attempt to register existing user with email: ${email}`);
-            return res.status(400).json({ message: 'User already exists' });
+            logger.info(`${Constants.LOGGER.REGISTER.USER_ALREADY_REGISTERED} ${email}`);
+            return res.status(400).json({
+                code: Constants.USER.ALREADY_EXISTS.CODE,
+                message: Constants.USER.ALREADY_EXISTS.MESSAGE
+            });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -35,14 +42,21 @@ exports.registerUser = async (req, res) => {
         });
 
         await newUser.save();
-        logger.info(`New user registered with email: ${email}`);
+        logger.info(`${Constants.LOGGER.REGISTER.NEW_USER_REGISTERED} ${email}`);
 
-        res.status(201).json({ message: 'User created.' });
+        res.status(201).json({ 
+            code: Constants.USER.CREATED.CODE, 
+            message: Constants.USER.CREATED.MESSAGE 
+        });
     } catch (err) {
-        logger.error(`Error during user registration: ${err.message}`);
-        res.status(500).json({ message: 'Server error' });
+        logger.error(`${Constants.ERROR.SERVER_ERROR.MESSAGE}: ${err.message}`);
+        res.status(500).json({ 
+            code: Constants.ERROR.SERVER_ERROR.CODE, 
+            message: Constants.ERROR.SERVER_ERROR.MESSAGE 
+        });
     }
 };
+
 
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -51,25 +65,39 @@ exports.loginUser = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            logger.info(`Invalid login attempt: user with email ${email} not found`);
-            return res.status(400).json({ message: 'Invalid email or password' });
+            logger.info(`${Constants.LOGGER.LOGIN.INVALID_EMAIL} ${email}`);
+            return res.status(400).json({
+                code: Constants.AUTH.INVALID_EMAIL_OR_PASSWORD.CODE,
+                message: Constants.AUTH.INVALID_EMAIL_OR_PASSWORD.MESSAGE
+            });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            logger.info(`Invalid login attempt: wrong password for email ${email}`);
-            return res.status(400).json({ message: 'Invalid email or password' });
+            logger.info(`${Constants.LOGGER.LOGIN.INVALID_PASSWORD} ${email}`);
+            return res.status(400).json({
+                code: Constants.AUTH.INVALID_EMAIL_OR_PASSWORD.CODE,
+                message: Constants.AUTH.INVALID_EMAIL_OR_PASSWORD.MESSAGE
+            });
         }
 
         const token = generateToken(user._id, user.email);
-        logger.info(`User logged in successfully: ${email}`);
-        res.status(200).json({ token, message: 'Login successful' });
+        logger.info(`${Constants.LOGGER.LOGIN.SUCCESSFUL_LOGIN} ${email}`);
+        res.status(200).json({ 
+            token, 
+            code: Constants.USER.LOGIN_SUCCESSFUL.CODE, 
+            message: Constants.USER.LOGIN_SUCCESSFUL.MESSAGE 
+        });
     } catch (err) {
-        logger.error(`Error during login: ${err.message}`);
-        res.status(500).json({ message: 'Server error' });
+        logger.error(`${Constants.ERROR.SERVER_ERROR.MESSAGE}: ${err.message}`);
+        res.status(500).json({ 
+            code: Constants.ERROR.SERVER_ERROR.CODE, 
+            message: Constants.ERROR.SERVER_ERROR.MESSAGE 
+        });
     }
 };
+
 
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
@@ -78,8 +106,11 @@ exports.forgotPassword = async (req, res) => {
         const user = await User.findOne({ email });
   
         if (!user) {
-            logger.info(`Password reset attempt for non-existent user: ${email}`);
-            return res.status(404).json({ message: 'User not found.' });
+            logger.info(`${Constants.LOGGER.PASSWORD_RESET.ATTEMPT_NON_EXISTENT_USER} ${email}`);
+            return res.status(404).json({ 
+                code: Constants.USER.NOT_FOUND.CODE,
+                message: Constants.USER.NOT_FOUND.MESSAGE
+            });
         }
   
         const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -114,11 +145,17 @@ exports.forgotPassword = async (req, res) => {
             html: htmlContent,
         });
   
-        logger.info(`Password reset email sent to: ${email}`);
-        res.status(200).json({ message: 'E-mail was sent.' });
+        logger.info(`${Constants.LOGGER.PASSWORD_RESET.EMAIL_SENT} ${email}`);
+        res.status(200).json({ 
+            code: Constants.USER.PASSWORD_RESET_EMAIL_SENT.CODE, 
+            message: Constants.USER.PASSWORD_RESET_EMAIL_SENT.MESSAGE 
+        });
     } catch (err) {
-        logger.error(`Error sending password reset email to ${email}: ${err.message}`);
-        res.status(500).json({ message: 'Error sending e-mail.' });
+        logger.error(`${Constants.ERROR.EMAIL_SEND_ERROR.MESSAGE} ${email}: ${err.message}`);
+        res.status(500).json({ 
+            code: Constants.ERROR.EMAIL_SEND_ERROR.CODE, 
+            message: Constants.ERROR.EMAIL_SEND_ERROR.MESSAGE 
+        });
     }
 };
 
@@ -131,8 +168,11 @@ exports.resetPassword = async (req, res) => {
         const user = await User.findById(decoded.id);
     
         if (!user) {
-            logger.info(`Password reset attempt for non-existent user ID: ${decoded.id}`);
-            return res.status(404).json({ message: 'User not found.' });
+            logger.info(`${Constants.LOGGER.PASSWORD_RESET.ATTEMPT_NON_EXISTENT_USER} ${decoded.id}`);
+            return res.status(404).json({ 
+                code: Constants.USER.NOT_FOUND.CODE,
+                message: Constants.USER.NOT_FOUND.MESSAGE
+            });
         }
   
         const salt = await bcrypt.genSalt(10);
@@ -144,9 +184,15 @@ exports.resetPassword = async (req, res) => {
         await user.save();
   
         logger.info(`Password reset successful for user: ${user.email}`);
-        res.status(200).json({ message: 'Password was reset.' });
+        res.status(200).json({ 
+            code: Constants.USER.PASSWORD_RESET_SUCCESSFUL.CODE, 
+            message: Constants.USER.PASSWORD_RESET_SUCCESSFUL.MESSAGE 
+        });
     } catch (err) {
-        logger.error(`Invalid token during password reset: ${err.message}`);
-        res.status(400).json({ message: 'Token invalid.' });
+        logger.error(`${Constants.AUTH.TOKEN_INVALID.MESSAGE}: ${err.message}`);
+        res.status(400).json({ 
+            code: Constants.AUTH.TOKEN_INVALID.CODE,
+            message: Constants.AUTH.TOKEN_INVALID.MESSAGE 
+        });
     }
 };

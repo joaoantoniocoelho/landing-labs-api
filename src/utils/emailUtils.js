@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const logger = require('pino')(); // Para logs
+const Constants = require('../constants/constants'); // Importando as constantes
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -17,9 +18,9 @@ exports.sendEmail = async ({ to, subject, html }) => {
             subject,
             html,
         });
-        logger.info(`Email successfully sent to ${to}`);
+        logger.info(`${Constants.LOGGER.EMAIL.SUCCESS} ${to}`);
     } catch (error) {
-        logger.error(`Error sending email to ${to}: ${error.message}`);
-        throw new Error('Error sending email');
+        logger.error(`${Constants.LOGGER.EMAIL.ERROR} ${to}: ${error.message}`);
+        throw new Error(Constants.ERROR.EMAIL_SEND_ERROR.MESSAGE);
     }
 };

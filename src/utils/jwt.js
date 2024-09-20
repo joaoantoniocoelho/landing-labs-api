@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const logger = require('pino')(); // Para logs
+const Constants = require('../constants/constants'); // Importando as constantes
 
 const generateToken = (userId, email) => {
     try {
@@ -8,21 +9,21 @@ const generateToken = (userId, email) => {
             process.env.JWT_SECRET,             
             { expiresIn: '1h' }                 
         );
-        logger.info(`Token generated for user: ${email}`);
+        logger.info(`${Constants.LOGGER.AUTH.TOKEN_GENERATED} ${email}`);
         return token;
     } catch (error) {
-        logger.error(`Error generating token for user: ${email}, ${error.message}`);
-        throw new Error('Token generation failed');
+        logger.error(`${Constants.LOGGER.AUTH.TOKEN_GENERATION_FAILED} ${email}, ${error.message}`);
+        throw new Error(Constants.AUTH.TOKEN_GENERATION_FAILED.MESSAGE);
     }
 };
 
 const verifyToken = (token) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET); 
-        logger.info(`Token verified successfully for user: ${decoded.email}`);
+        logger.info(`${Constants.LOGGER.AUTH.TOKEN_VERIFIED} ${decoded.email}`);
         return decoded;
     } catch (error) {
-        logger.warn(`Token verification failed: ${error.message}`);
+        logger.warn(`${Constants.LOGGER.AUTH.TOKEN_VERIFICATION_FAILED} ${error.message}`);
         return null;
     }
 };

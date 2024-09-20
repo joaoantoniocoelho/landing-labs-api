@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    deletedAt: {
+        type: Date
+    },
     lastPasswordChange: {
         type: Date,
         default: Date.now,

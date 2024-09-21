@@ -2,10 +2,10 @@ const jwt = require('jsonwebtoken');
 const logger = require('pino')(); // Para logs
 const Constants = require('../constants/constants'); // Importando as constantes
 
-const generateToken = (userId, email) => {
+const generateToken = (userId, email, name) => {
     try {
         const token = jwt.sign(
-            { id: userId, email },              
+            { id: userId, email: email, name: name},              
             process.env.JWT_SECRET,             
             { expiresIn: '1h' }                 
         );

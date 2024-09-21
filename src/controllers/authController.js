@@ -82,7 +82,7 @@ exports.loginUser = async (req, res) => {
             });
         }
 
-        const token = generateToken(user._id, user.email);
+        const token = generateToken(user._id, user.email, user.name);
         logger.info(`${Constants.LOGGER.LOGIN.SUCCESSFUL_LOGIN} ${email}`);
         res.status(200).json({ 
             token, 
@@ -121,7 +121,7 @@ exports.forgotPassword = async (req, res) => {
           <h1 style="color: #333333;">Redefinição de Senha</h1>
           <p style="font-size: 16px; color: #555555;">Olá,</p>
           <p style="font-size: 16px; color: #555555;">
-            Você solicitou a redefinição de sua senha. Clique no link abaixo para redefinir sua senha:
+            Você solicitou a redefinição de sua senha. Clique no link abaixo para redefinir:
           </p>
           <p style="margin: 20px 0;">
             <a href="${resetUrl}" 
@@ -130,7 +130,7 @@ exports.forgotPassword = async (req, res) => {
             </a>
           </p>
           <p style="font-size: 14px; color: #999999;">
-            Se você não solicitou a redefinição de senha, por favor ignore este e-mail. Seus dados estão protegidos e sua conta segura.
+            Se você não solicitou a redefinição de senha, por favor desconsidere este e-mail. Seus dados estão protegidos e sua conta segura.
           </p>
           <p style="font-size: 14px; color: #999999;">
             Obrigado,<br>

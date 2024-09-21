@@ -2,76 +2,76 @@ const Constants = {
     VALIDATION: {
         FAILED: {
             CODE: 'VALIDATION_FAILED',
-            MESSAGE: 'Validation failed during registration: ',
+            MESSAGE: 'Erro durante a validação: ',
         },
     },
   
     USER: {
         ALREADY_EXISTS: {
             CODE: 'USER_ALREADY_EXISTS',
-            MESSAGE: 'User already exists',
+            MESSAGE: 'Usuário já existe',
         },
         CREATED: {
             CODE: 'USER_CREATED',
-            MESSAGE: 'User created.',
+            MESSAGE: 'Usuário criado com sucesso.',
         },
         NOT_FOUND: {
             CODE: 'USER_NOT_FOUND',
-            MESSAGE: 'User not found.',
+            MESSAGE: 'Usuário não encontrado.',
         },
         LOGIN_SUCCESSFUL: {
             CODE: 'LOGIN_SUCCESSFUL',
-            MESSAGE: 'Login successful',
+            MESSAGE: 'Login feito com sucesso',
         },
         PASSWORD_RESET_SUCCESSFUL: {
             CODE: 'PASSWORD_RESET_SUCCESSFUL',
-            MESSAGE: 'Password was reset.',
+            MESSAGE: 'Sua senha foi alterada.',
         },
         PASSWORD_RESET_EMAIL_SENT: {
             CODE: 'PASSWORD_RESET_EMAIL_SENT',
-            MESSAGE: 'E-mail was sent.',
+            MESSAGE: 'E-mail para alterar senha foi enviado.',
         },
     },
   
     AUTH: {
         INVALID_EMAIL_OR_PASSWORD: {
             CODE: 'INVALID_EMAIL_OR_PASSWORD',
-            MESSAGE: 'Invalid email or password',
+            MESSAGE: 'Email ou senha incorretos.',
         },
         TOKEN_INVALID: {
             CODE: 'TOKEN_INVALID',
-            MESSAGE: 'Invalid or expired token.',
+            MESSAGE: 'Token inválido.',
         },
         TOKEN_GENERATION_FAILED: {
             CODE: 'TOKEN_GENERATION_FAILED',
-            MESSAGE: 'Token generation failed.',
+            MESSAGE: 'Falha ao gerar token.',
         },
         TOKEN_VERIFICATION_FAILED: {
             CODE: 'TOKEN_VERIFICATION_FAILED',
-            MESSAGE: 'Token verification failed.',
+            MESSAGE: 'Falha ao verificar token.',
         },
         NO_TOKEN: {
             CODE: 'NO_TOKEN',
-            MESSAGE: 'Access denied. No token provided.',
+            MESSAGE: 'Acesso negado.',
         },
         TOKEN_EXPIRED_PASSWORD_CHANGE: {
             CODE: 'TOKEN_EXPIRED_PASSWORD_CHANGE',
-            MESSAGE: 'Token is invalid, password was changed.',
+            MESSAGE: 'Token inválido, senha foi alterada.',
         },
     },
   
     ERROR: {
         SERVER_ERROR: {
             CODE: 'SERVER_ERROR',
-            MESSAGE: 'Server error',
+            MESSAGE: 'ERro no servidor',
         },
         EMAIL_SEND_ERROR: {
             CODE: 'EMAIL_SEND_ERROR',
-            MESSAGE: 'Error sending e-mail.',
+            MESSAGE: 'Erro ao enviar e-mail.',
         },
         EMAIL_SUCCESS: {
             CODE: 'EMAIL_SUCCESS',
-            MESSAGE: 'Email successfully sent.',
+            MESSAGE: 'E-mail enviado com sucesso.',
         },
     },
   

@@ -28,7 +28,6 @@ const authMiddleware = async (req, res, next) => {
         const user = await User.findById(decoded.id);
 
         if (!user) {
-            logger.warn(`User not found. Token provided for user ID: ${decoded.id}`);
             return res.status(401).json({ 
                 code: Constants.USER.NOT_FOUND.CODE, 
                 message: Constants.USER.NOT_FOUND.MESSAGE 
@@ -47,8 +46,6 @@ const authMiddleware = async (req, res, next) => {
         }
 
         req.user = decoded;
-        logger.info(`Authenticated request for user: ${user.email}`);
-        
         next();
     } catch (err) {
         logger.error(`Error during token verification: ${err.message}`);

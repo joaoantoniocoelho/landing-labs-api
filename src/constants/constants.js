@@ -42,6 +42,10 @@ const Constants = {
             CODE: 'TOKEN_INVALID',
             MESSAGE: 'Token inválido.',
         },
+        TOKEN_VALID: {
+            CODE: 'TOKEN_VALID',
+            MESSAGE: 'Token válido.',
+        },
         TOKEN_GENERATION_FAILED: {
             CODE: 'TOKEN_GENERATION_FAILED',
             MESSAGE: 'Falha ao gerar token.',
@@ -94,6 +98,7 @@ const Constants = {
             ERROR: 'Error sending email to ',
         },
         AUTH: {
+            TOKEN_VALIDATION: 'Validating token',
             TOKEN_GENERATED: 'Token generated for user: ',
             TOKEN_GENERATION_FAILED: 'Error generating token for user: ',
             TOKEN_VERIFIED: 'Token verified successfully for user: ',

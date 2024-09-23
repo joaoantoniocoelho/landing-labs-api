@@ -196,3 +196,22 @@ exports.resetPassword = async (req, res) => {
         });
     }
 };
+
+exports.validateToken = async (req,res) => {
+    logger.info(Constants.LOGGER.AUTH.TOKEN_VALIDATION);
+    const JWT_SECRET = process.env.JWT_SECRET;
+
+    const token = req.params.token;
+
+    if (!token) {
+        return res.status(400).json({ code: Constants.AUTH.NO_TOKEN.CODE, message: Constants.AUTH.NO_TOKEN.MESSAGE });
+    };
+
+    try {
+        jwt.verify(token, JWT_SECRET);
+        return res.status(200).json({ code: Constants.AUTH.TOKEN_VALID.CODE, message: Constants.AUTH.TOKEN_VALID.MESSAGE }); 
+    } catch (error) {
+        logger.error(`${Constants.LOGGER.AUTH.TOKEN_VERIFICATION_FAILED}: ${error.message}`);
+        return res.status(401).json({ code: Constants.AUTH.TOKEN_VERIFICATION_FAILED.CODE, message: Constants.AUTH.TOKEN_VERIFICATION_FAILED.MESSAGE });
+    }
+};

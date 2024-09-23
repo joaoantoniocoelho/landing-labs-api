@@ -134,7 +134,7 @@ exports.forgotPassword = async (req, res) => {
           </p>
           <p style="font-size: 14px; color: #999999;">
             Obrigado,<br>
-            A Equipe do Landing Labs
+            A Equipe do Page Express
           </p>
         </div>
       `;

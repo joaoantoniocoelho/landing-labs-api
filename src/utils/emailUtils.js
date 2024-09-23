@@ -13,7 +13,7 @@ let transporter = nodemailer.createTransport({
 exports.sendEmail = async ({ to, subject, html }) => {
     try {
         await transporter.sendMail({
-            from: `"Landing Labs" <${process.env.SMTP_USER}>`,
+            from: `"Page Express" <${process.env.SMTP_USER}>`,
             to,
             subject,
             html,

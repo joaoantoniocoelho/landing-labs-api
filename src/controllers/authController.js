@@ -117,24 +117,28 @@ exports.forgotPassword = async (req, res) => {
         const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
   
         const htmlContent = `
-        <div style="font-family: Arial, sans-serif; color: #333333; background-color: #f9f9f9; padding: 20px; border-radius: 10px; max-width: 600px; margin: 0 auto; text-align: center;">
-          <h1 style="color: #333333;">Redefinição de Senha</h1>
-          <p style="font-size: 16px; color: #555555;">Olá,</p>
-          <p style="font-size: 16px; color: #555555;">
-            Você solicitou a redefinição de sua senha. Clique no link abaixo para redefinir:
+        <div style="font-family: Arial, sans-serif; color: #333333; background-color: #F4ECF7; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+          <h1 style="color: #6A1B9A;">Redefinição de Senha</h1>
+          <p style="font-size: 16px; color: #333333;">Olá,</p>
+          <p style="font-size: 16px; color: #333333;">
+            Você solicitou a redefinição de sua senha. Clique no botão abaixo para redefinir:
           </p>
           <p style="margin: 20px 0;">
             <a href="${resetUrl}" 
-               style="color: #2ecc71; font-size: 16px;">
-              Redefinir minha senha
+               style="background-color: #8E44AD; color: #ffffff; padding: 12px 24px; border-radius: 5px; font-size: 16px; text-decoration: none; display: inline-block; font-weight: bold;">
+              Redefinir Minha Senha
             </a>
           </p>
-          <p style="font-size: 14px; color: #999999;">
+          <p style="font-size: 14px; color: #333333;">
             Se você não solicitou a redefinição de senha, por favor desconsidere este e-mail. Seus dados estão protegidos e sua conta segura.
           </p>
-          <p style="font-size: 14px; color: #999999;">
+          <p style="font-size: 14px; color: #333333;">
             Obrigado,<br>
             A Equipe do Page Express
+          </p>
+          <hr style="border: none; border-top: 1px solid #E0E0E0; margin: 20px 0;">
+          <p style="font-size: 12px; color: #999999;">
+            Este é um e-mail automático, por favor, não responda.
           </p>
         </div>
       `;

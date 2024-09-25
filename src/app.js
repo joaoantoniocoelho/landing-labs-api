@@ -15,7 +15,7 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('Connected to MongoDB')).catch((error) => console.error('Error connecting on MongoDB:', error));
 
 app.get('/', (req, res) => {
-    res.send('API Running...');
+    res.send('DEV API Running...');
 });
 
 app.use('/api/auth', authRoutes);

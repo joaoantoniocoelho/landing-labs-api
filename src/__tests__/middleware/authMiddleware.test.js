@@ -3,7 +3,6 @@ const User = require('../../models/User');
 const authMiddleware = require('../../middleware/auth.middleware');
 const Constants = require('../../constants/constants');
 
-// Mockando dependências
 jest.mock('../../utils/jwt');
 jest.mock('../../models/User');
 
@@ -68,7 +67,7 @@ describe('authMiddleware', () => {
 
     it('deve retornar 401 se o token foi emitido antes da última alteração de senha', async () => {
         const lastPasswordChange = new Date();
-        const tokenIssuedAt = new Date(lastPasswordChange.getTime() - 1000); // Token emitido antes da alteração de senha
+        const tokenIssuedAt = new Date(lastPasswordChange.getTime() - 1000);
 
         verifyToken.mockReturnValue({ id: 'userId', iat: Math.floor(tokenIssuedAt.getTime() / 1000) });
         User.findById.mockResolvedValue({ lastPasswordChange, email: 'test@example.com' });
@@ -85,7 +84,7 @@ describe('authMiddleware', () => {
 
     it('deve prosseguir para o próximo middleware se o token e o usuário forem válidos', async () => {
         const lastPasswordChange = new Date();
-        const tokenIssuedAt = new Date(lastPasswordChange.getTime() + 1000); // Token emitido depois da alteração de senha
+        const tokenIssuedAt = new Date(lastPasswordChange.getTime() + 1000);
 
         verifyToken.mockReturnValue({ id: 'userId', email: 'test@example.com', iat: Math.floor(tokenIssuedAt.getTime() / 1000) });
         User.findById.mockResolvedValue({ lastPasswordChange, email: 'test@example.com' });

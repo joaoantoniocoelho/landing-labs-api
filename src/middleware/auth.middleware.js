@@ -1,7 +1,7 @@
 const { verifyToken } = require('../utils/jwt');
 const User = require('../models/User');
 const logger = require('pino')();
-const Constants = require('../constants/constants'); // Importando as constantes
+const Constants = require('../constants/constants');
 
 const authMiddleware = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];

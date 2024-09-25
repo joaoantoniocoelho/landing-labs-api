@@ -7,7 +7,6 @@ const { generateToken } = require('../../utils/jwt');
 const { sendEmail } = require('../../utils/emailUtils');
 const userSchema = require('../../schemas/userSchema');
 
-// Mockando a instância do logger
 jest.mock('pino', () => {
     return jest.fn(() => ({
         info: jest.fn(),
@@ -47,17 +46,13 @@ describe('Auth Controller', () => {
 
     describe('registerUser', () => {
         it('deve registrar um novo usuário com sucesso', async () => {
-            // Mockando a validação do schema
             userSchema.validate.mockReturnValue({ error: null });
 
-            // Mockando o usuário não existente
             User.findOne.mockResolvedValue(null);
 
-            // Mockando bcrypt
             bcrypt.genSalt.mockResolvedValue('test-salt');
             bcrypt.hash.mockResolvedValue('hashed-password');
 
-            // Mock do save
             User.prototype.save = jest.fn().mockResolvedValue();
 
             await registerUser(req, res);
@@ -76,7 +71,6 @@ describe('Auth Controller', () => {
         });
 
         it('deve retornar erro de validação se o corpo da requisição for inválido', async () => {
-            // Mockando validação com erro
             userSchema.validate.mockReturnValue({
                 error: { details: [{ message: 'Invalid input' }] }
             });
@@ -208,7 +202,7 @@ describe('Auth Controller', () => {
             expect(sendEmail).toHaveBeenCalledWith({
                 to: mockUser.email,
                 subject: 'Redefinição de Senha',
-                html: expect.any(String) // Espera que o conteúdo HTML seja gerado
+                html: expect.any(String) 
             });
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.json).toHaveBeenCalledWith({

@@ -6,7 +6,7 @@ const userSchema = require('../schemas/userSchema');
 
 const { generateToken } = require('../utils/jwt');
 const { sendEmail } = require('../utils/emailUtils');
-const Constants = require('../constants/constants'); // Importando as constantes
+const Constants = require('../constants/constants');
 
 exports.registerUser = async (req, res) => {
     const { error } = userSchema.validate(req.body);

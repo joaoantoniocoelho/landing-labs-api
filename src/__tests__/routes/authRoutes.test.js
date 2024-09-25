@@ -1,19 +1,17 @@
 const request = require('supertest');
 const express = require('express');
-const authRouter = require('../../routes/authRoutes'); // Importe o arquivo de rotas
+const authRouter = require('../../routes/authRoutes');
 const authController = require('../../controllers/authController');
 
-// Mockando as funções do authController
 jest.mock('../../controllers/authController');
 
-// Inicializando uma aplicação express para usar nas simulações
 const app = express();
 app.use(express.json());
-app.use('/auth', authRouter); // Usando o router definido
+app.use('/auth', authRouter); 
 
 describe('Auth Routes', () => {
     beforeEach(() => {
-        jest.clearAllMocks(); // Limpar os mocks antes de cada teste
+        jest.clearAllMocks(); 
     });
 
     it('deve chamar registerUser quando POST /auth/register for chamado', async () => {

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
-const logger = require('pino')(); // Para logs
-const Constants = require('../constants/constants'); // Importando as constantes
-
+const logger = require('pino')();
+const Constants = require('../constants/constants');
 const generateToken = (userId, email, name) => {
     try {
         const token = jwt.sign(

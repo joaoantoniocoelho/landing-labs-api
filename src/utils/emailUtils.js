@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
-const logger = require('pino')(); // Para logs
-const Constants = require('../constants/constants'); // Importando as constantes
+const logger = require('pino')();
+const Constants = require('../constants/constants');
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',

@@ -117,22 +117,22 @@ exports.forgotPassword = async (req, res) => {
         const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
   
         const htmlContent = `
-        <div style="font-family: Arial, sans-serif; color: #333333; background-color: #F4ECF7; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-          <h1 style="color: #6A1B9A;">Redefinição de Senha</h1>
-          <p style="font-size: 16px; color: #333333;">Olá,</p>
-          <p style="font-size: 16px; color: #333333;">
+        <div style="font-family: 'Inter', sans-serif; color: #212121; background-color: #FEFEFE; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+          <h1 style="color: #1A73E8;">Redefinição de Senha</h1>
+          <p style="font-size: 16px; color: #212121;">Olá,</p>
+          <p style="font-size: 16px; color: #212121;">
             Você solicitou a redefinição de sua senha. Clique no botão abaixo para redefinir:
           </p>
           <p style="margin: 20px 0;">
             <a href="${resetUrl}" 
-               style="background-color: #8E44AD; color: #ffffff; padding: 12px 24px; border-radius: 5px; font-size: 16px; text-decoration: none; display: inline-block; font-weight: bold;">
+               style="background-color: #2ECC71; color: #FFFFFF; padding: 12px 24px; border-radius: 5px; font-size: 16px; text-decoration: none; display: inline-block; font-weight: bold;">
               Redefinir Minha Senha
             </a>
           </p>
-          <p style="font-size: 14px; color: #333333;">
+          <p style="font-size: 14px; color: #212121;">
             Se você não solicitou a redefinição de senha, por favor desconsidere este e-mail. Seus dados estão protegidos e sua conta segura.
           </p>
-          <p style="font-size: 14px; color: #333333;">
+          <p style="font-size: 14px; color: #212121;">
             Obrigado,<br>
             A Equipe do Page Express
           </p>
@@ -141,7 +141,7 @@ exports.forgotPassword = async (req, res) => {
             Este é um e-mail automático, por favor, não responda.
           </p>
         </div>
-      `;
+        `;
   
         await sendEmail({
             to: user.email,

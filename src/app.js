@@ -12,7 +12,7 @@ const app = express();
 
 // Lista de origens permitidas
 const allowedOrigins = [
-    'http://localhost:3000', // para desenvolvimento local
+    'http://localhost:3000',
     'https://pageexpress.io',
     'https://dev.pageexpress.io'
 ];
@@ -20,14 +20,32 @@ const allowedOrigins = [
 // Configuração do CORS
 app.use(cors({
     origin: function (origin, callback) {
-    // Permitir requisições sem origem (como no caso de testes)
+        // Permitir requisições sem origem (como no caso de testes)
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
             callback(new Error('CORS não permitido para esta origem'));
         }
-    }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }));
+
+// Permitir requisições OPTIONS separadamente
+app.options('*', cors());
+
+// Middleware para permitir pré-verificações (OPTIONS)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).json({});
+    }
+    next();
+});
 
 app.use(express.json());
 

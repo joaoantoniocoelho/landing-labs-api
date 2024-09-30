@@ -67,7 +67,7 @@ const Constants = {
     ERROR: {
         SERVER_ERROR: {
             CODE: 'SERVER_ERROR',
-            MESSAGE: 'ERro no servidor',
+            MESSAGE: 'Erro no servidor',
         },
         EMAIL_SEND_ERROR: {
             CODE: 'EMAIL_SEND_ERROR',
@@ -81,28 +81,39 @@ const Constants = {
   
     LOGGER: {
         REGISTER: {
-            NEW_USER_REGISTERED: 'New user registered with email: ',
-            USER_ALREADY_REGISTERED: 'Attempt to register existing user with email: ',
+            NEW_USER_REGISTERED: 'Novo usuário registrado com o e-mail: ',
+            USER_ALREADY_REGISTERED: 'Tentativa de registro de usuário já existente com o e-mail: ',
         },
         LOGIN: {
-            INVALID_EMAIL: 'Invalid login attempt: user with email ',
-            INVALID_PASSWORD: 'Invalid login attempt: wrong password for email ',
-            SUCCESSFUL_LOGIN: 'User logged in successfully: ',
+            INVALID_EMAIL: 'Tentativa de login inválida: usuário com o e-mail ',
+            INVALID_PASSWORD: 'Tentativa de login inválida: senha incorreta para o e-mail ',
+            SUCCESSFUL_LOGIN: 'Usuário logado com sucesso: ',
         },
         PASSWORD_RESET: {
-            EMAIL_SENT: 'Password reset email sent to: ',
-            ATTEMPT_NON_EXISTENT_USER: 'Password reset attempt for non-existent user ID: ',
+            EMAIL_SENT: 'E-mail de redefinição de senha enviado para: ',
+            ATTEMPT_NON_EXISTENT_USER: 'Tentativa de redefinição de senha para usuário inexistente com o ID: ',
         },
         EMAIL: {
-            SUCCESS: 'Email successfully sent to ',
-            ERROR: 'Error sending email to ',
+            SUCCESS: 'E-mail enviado com sucesso para ',
+            ERROR: 'Erro ao enviar e-mail para ',
         },
         AUTH: {
-            TOKEN_VALIDATION: 'Validating token',
-            TOKEN_GENERATED: 'Token generated for user: ',
-            TOKEN_GENERATION_FAILED: 'Error generating token for user: ',
-            TOKEN_VERIFIED: 'Token verified successfully for user: ',
-            TOKEN_VERIFICATION_FAILED: 'Token verification failed: ',
+            TOKEN_VALIDATION: 'Validando token',
+            TOKEN_GENERATED: 'Token gerado para o usuário: ',
+            TOKEN_GENERATION_FAILED: 'Erro ao gerar token para o usuário: ',
+            TOKEN_VERIFIED: 'Token verificado com sucesso para o usuário: ',
+            TOKEN_VERIFICATION_FAILED: 'Falha na verificação do token: ',
+        },
+    },
+  
+    LEAD: {
+        ALREADY_EXISTS: {
+            CODE: 'LEAD_EXISTS',
+            MESSAGE: 'O e-mail já está cadastrado.',
+        },
+        CREATED: {
+            CODE: 'LEAD_CREATED',
+            MESSAGE: 'Obrigado por se inscrever! Em breve, você receberá mais informações.',
         },
     },
 };

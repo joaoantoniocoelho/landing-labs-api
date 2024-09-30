@@ -1,5 +1,4 @@
 const Lead = require('../models/Leads');
-const logger = require('pino')();
 const { sendEmail } = require('../utils/emailUtils');
 const Constants = require('../constants/constants');
 
@@ -7,7 +6,6 @@ exports.registerLead = async (req, res) => {
     const { email } = req.body;
 
     if (!email || !email.includes('@')) {
-        logger.warn(`${Constants.VALIDATION.FAILED.MESSAGE} Email inválido: ${email}`);
         return res.status(400).json({ 
             code: Constants.VALIDATION.FAILED.CODE, 
             message: Constants.VALIDATION.FAILED.MESSAGE + ' Email inválido.' 
@@ -18,7 +16,6 @@ exports.registerLead = async (req, res) => {
         const leadExists = await Lead.findOne({ email });
 
         if (leadExists) {
-            logger.info(`${Constants.LOGGER.LEAD.EMAIL_ALREADY_REGISTERED} ${email}`);
             return res.status(200).json({
                 code: Constants.LEAD.ALREADY_EXISTS.CODE,
                 message: Constants.LEAD.ALREADY_EXISTS.MESSAGE,
@@ -27,7 +24,6 @@ exports.registerLead = async (req, res) => {
 
         const newLead = new Lead({ email });
         await newLead.save();
-        logger.info(`${Constants.LOGGER.LEAD.NEW_LEAD_REGISTERED} ${email}`);
 
         const htmlContent = `
         <div style="font-family: 'Inter', sans-serif; color: #212121; background-color: #FEFEFE; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; text-align: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
@@ -54,14 +50,12 @@ exports.registerLead = async (req, res) => {
             html: htmlContent,
         });
 
-        logger.info(`${Constants.LOGGER.LEAD.CONFIRMATION_EMAIL_SENT} ${email}`);
 
         res.status(201).json({ 
             code: Constants.LEAD.CREATED.CODE, 
             message: Constants.LEAD.CREATED.MESSAGE 
         });
-    } catch (err) {
-        logger.error(`${Constants.ERROR.SERVER_ERROR.MESSAGE}: ${err.message}`);
+    } catch {
         res.status(500).json({ 
             code: Constants.ERROR.SERVER_ERROR.CODE, 
             message: Constants.ERROR.SERVER_ERROR.MESSAGE 

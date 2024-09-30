@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const authRoutes = require('./routes/authRoutes');
+const leadRoutes = require('./routes/leadRoutes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/lead', leadRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

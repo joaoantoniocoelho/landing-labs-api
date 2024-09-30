@@ -10,10 +10,30 @@ const leadRoutes = require('./routes/leadRoutes');
 
 const app = express();
 
-app.use(cors());
+// Lista de origens permitidas
+const allowedOrigins = [
+    'http://localhost:3000', // para desenvolvimento local
+    'https://pageexpress.io',
+    'https://dev.pageexpress.io'
+];
+
+// Configuração do CORS
+app.use(cors({
+    origin: function (origin, callback) {
+    // Permitir requisições sem origem (como no caso de testes)
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('CORS não permitido para esta origem'));
+        }
+    }
+}));
+
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI).then(() => console.log('Connected to MongoDB')).catch((error) => console.error('Error connecting on MongoDB:', error));
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 app.get('/', (req, res) => {
     res.send('Page Express API Running...');

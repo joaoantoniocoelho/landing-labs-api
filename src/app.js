@@ -7,20 +7,19 @@ const mongoose = require('mongoose');
 
 const authRoutes = require('./routes/authRoutes');
 const leadRoutes = require('./routes/leadRoutes');
+const pageRoutes = require('./routes/pageRoutes');
 
 const app = express();
 
-// Lista de origens permitidas
 const allowedOrigins = [
     'http://localhost:3000',
+    'http://localhost:3001',
     'https://pageexpress.io',
     'https://dev.pageexpress.io'
 ];
 
-// Configuração do CORS
-app.use(cors({
+const corsOptions = {
     origin: function (origin, callback) {
-        // Permitir requisições sem origem (como no caso de testes)
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
@@ -30,11 +29,11 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
-}));
+};
 
-// Middleware para permitir pré-verificações (OPTIONS)
+app.use(cors(corsOptions));
+
 app.use((req, res, next) => {
-    // Verificação adicional para garantir que a requisição venha de uma origem permitida
     const origin = req.headers.origin;
     if (origin && allowedOrigins.indexOf(origin) === -1) {
         return res.status(403).json({ message: 'Acesso negado: origem não permitida' });
@@ -46,36 +45,36 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware para validar requests originados apenas do frontend
 app.use((req, res, next) => {
     const origin = req.headers.origin || req.headers.referer;
-
-    // Garantir que a origem/referer esteja na lista permitida
     if (origin && allowedOrigins.indexOf(origin) === -1) {
         return res.status(403).json({ message: 'Acesso negado: origem não permitida' });
     }
-
     next();
 });
 
 app.use(express.json());
 
-// Conexão ao MongoDB
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((error) => console.error('Error connecting to MongoDB:', error));
+    .then(() => console.log('Conectado ao MongoDB'))
+    .catch((error) => console.error('Erro ao conectar ao MongoDB:', error));
 
-// Rota inicial para verificação
 app.get('/', (req, res) => {
     res.send('Page Express API Running...');
 });
 
-// Rotas de autenticação e leads
+app.get('/ping', (req, res) => {
+    res.status(200).json({
+        message: 'pong!'
+    });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/lead', leadRoutes);
+app.use('/api/pages', pageRoutes);
 
 // Inicialização do servidor
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

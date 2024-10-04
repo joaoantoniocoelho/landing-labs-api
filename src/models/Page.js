@@ -33,6 +33,10 @@ const pageSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    deletedAt: {
+        type: Date,
+        default: null
     }
 });
 

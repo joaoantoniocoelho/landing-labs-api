@@ -5,7 +5,6 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +24,6 @@
     "@eslint/js": "^9.10.0",
     "eslint": "^9.10.0",
     "globals": "^15.9.0",
-    "jest": "^29.7.0",
     "nodemon": "^3.1.4",
     "supertest": "^7.0.0"
   }
